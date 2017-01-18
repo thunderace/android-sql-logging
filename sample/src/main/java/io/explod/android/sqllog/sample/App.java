@@ -13,6 +13,7 @@ public class App extends Application {
 
 	@Override
 	public void onCreate() {
+		super.onCreate();
 		LogEntryProvider.initialize(this);
 		Timber.plant(new Timber.DebugTree(), new SqlLoggingTree(this, DEFAULT_TAG));
 	}

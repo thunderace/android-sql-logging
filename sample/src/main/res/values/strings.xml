@@ -4,6 +4,7 @@
     <string name="generate_log_entry">Generate log entry…</string>
     <string name="add_exception">With Exception</string>
     <string name="exception_message">Exception message</string>
+    <string name="use_timber">Use Timber</string>
     <string name="view_logs">View logs…</string>
 
     <string name="generate_verbose">Generate Verbose</string>

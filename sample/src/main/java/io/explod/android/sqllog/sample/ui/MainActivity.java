@@ -13,6 +13,9 @@ import android.widget.Toast;
 import io.explod.android.sqllog.sample.R;
 import io.explod.android.sqllog.ui.activity.LogViewerActivity;
 import timber.log.Timber;
+import io.explod.android.sqllog.data.LogEntry;
+import io.explod.android.sqllog.data.LogEntryProvider;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 	EditText mMessageText;
 
 	CheckBox mGenerateExceptionCheckBox;
+	CheckBox mUseTimberCheckBox;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 		mMessageText = (EditText) findViewById(R.id.edit_message);
 		mGenerateExceptionCheckBox = (CheckBox) findViewById(R.id.check_add_exception);
+		mUseTimberCheckBox = (CheckBox) findViewById(R.id.check_use_timber);
 
 		findViewById(R.id.button_generate_verbose).setOnClickListener(onClickLogMessage(Log.VERBOSE));
 		findViewById(R.id.button_generate_debug).setOnClickListener(onClickLogMessage(Log.DEBUG));
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 				goToLogViewer();
 			}
 		});
+		
 	}
 
 	private View.OnClickListener onClickLogMessage(final int priority) {
@@ -65,13 +71,17 @@ public class MainActivity extends AppCompatActivity {
 
 		if (logException) {
 			Exception sample = new Exception("sample exception");
-			Timber.tag(TAG).log(priority, sample, message);
-			// this is how you would log manually:
-			// LogEntryProvider.insertLogEntry(this, LogEntry.create(priority, TAG, message, sample));
+			if (mUseTimberCheckBox.isChecked()) {
+				Timber.tag(TAG).log(priority, sample, message);
+			} else {
+				LogEntryProvider.insertLogEntry(this, LogEntry.create(priority, TAG, message, sample));
+			}
 		} else {
-			Timber.tag(TAG).log(priority, message);
-			// this is how you would log manually:
-			// LogEntryProvider.insertLogEntry(this, LogEntry.create(priority, TAG, message));
+			if (mUseTimberCheckBox.isChecked()) {
+				Timber.tag(TAG).log(priority, message);
+			} else {
+				LogEntryProvider.insertLogEntry(this, priority, TAG, message);
+			}
 		}
 	}
 
