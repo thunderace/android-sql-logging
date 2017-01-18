@@ -227,7 +227,7 @@ public class LogEntryProvider extends ContentProvider {
 
 	@NonNull
 	private static ContentValues contentValuesOf(@NonNull LogEntry logEntry) {
-		ContentValues values = new ContentValues(5);
+		ContentValues values = new ContentValues(4);
 		values.put(LogEntryContract.Columns.TIMESTAMP, logEntry.timestamp);
 		values.put(LogEntryContract.Columns.PRIORITY, logEntry.priority);
 		values.put(LogEntryContract.Columns.TAG, logEntry.tag);
@@ -239,6 +239,17 @@ public class LogEntryProvider extends ContentProvider {
 	public static Uri insertLogEntry(@NonNull Context context, @NonNull LogEntry logEntry) {
 		ContentResolver resolver = context.getContentResolver();
 		ContentValues contentValues = contentValuesOf(logEntry);
+		return resolver.insert(LogEntryContract.CONTENT_URI, contentValues);
+	}
+
+	@Nullable
+	public static Uri insertLogEntry(@NonNull Context context, int priority, @NonNull String tag, @Nullable String message) {
+		ContentResolver resolver = context.getContentResolver();
+		ContentValues values = new ContentValues(4);
+		values.put(LogEntryContract.Columns.TIMESTAMP, System.currentTimeMillis());
+		values.put(LogEntryContract.Columns.PRIORITY, priority);
+		values.put(LogEntryContract.Columns.TAG, tag);
+		values.put(LogEntryContract.Columns.MESSAGE, message);
 		return resolver.insert(LogEntryContract.CONTENT_URI, contentValues);
 	}
 
