@@ -20,6 +20,10 @@ Logging is done manually by wait of...
     LogEntry entry = LogEntry.createLogEntry(Log.DEBUG, TAG, "Hit critical function");
     LogEntryProvider.insertLogEntry(context, entry);
 ```
+or
+```java
+    LogEntryProvider.insertLogEntry(context, Log.DEBUG, TAG, "Hit critical function");
+```
 
 ...or you can plant a tree with Timber using `SQLLoggingTree`:
 
