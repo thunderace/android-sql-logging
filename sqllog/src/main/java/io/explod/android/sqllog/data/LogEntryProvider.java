@@ -245,11 +245,7 @@ public class LogEntryProvider extends ContentProvider {
 	@Nullable
 	public static Uri insertLogEntry(@NonNull Context context, int priority, @NonNull String tag, @Nullable String message) {
 		ContentResolver resolver = context.getContentResolver();
-		ContentValues values = new ContentValues(4);
-		values.put(LogEntryContract.Columns.TIMESTAMP, System.currentTimeMillis());
-		values.put(LogEntryContract.Columns.PRIORITY, priority);
-		values.put(LogEntryContract.Columns.TAG, tag);
-		values.put(LogEntryContract.Columns.MESSAGE, message);
+		ContentValues contentValues = contentValuesOf(LogEntry.create(priority, tag, message));
 		return resolver.insert(LogEntryContract.CONTENT_URI, contentValues);
 	}
 
