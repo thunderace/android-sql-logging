@@ -20,3 +20,5 @@ signing.properties
 
 *.hprof
 captures
+
+gradle.properties
